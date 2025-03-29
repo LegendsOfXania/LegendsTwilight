@@ -1,0 +1,4 @@
+name: LegendsTwilight
+version: '0.1'
+main: fr.xania.legendsTwilight.LegendsTwilight
+api-version: '1.21'
