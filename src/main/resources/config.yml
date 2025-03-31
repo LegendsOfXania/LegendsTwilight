@@ -1,0 +1,18 @@
+#-------------------------------------------------------------------------------#
+#                                                                               #
+#  LegendsTwilight is a dynamic plugin that introduces                          #
+#  a progressive corruption system for your world.                              #
+#  Corruption evolves according to players' points:                             #
+#  the more points players accumulate,                                          #
+#  the more corruption decreases, and vice versa.                               #
+#  So your world becomes a playground where corruption and hope mix every day.  #
+#                                                                               #
+#-------------------------------------------------------------------------------#
+
+
+# Configuration of the datapack (to add the corrumption biome)
+datapack:
+  name: "legends_twilight"
+  path: "pack/legends_twilight"
+  worlds:
+    - "xania"
