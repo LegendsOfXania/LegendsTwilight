@@ -5,10 +5,25 @@ import org.bukkit.plugin.java.JavaPlugin
 class LegendsTwilight : JavaPlugin() {
 
     override fun onEnable() {
-        // Plugin startup logic
+
+        enableLogger()
+
+        saveDefaultConfig()
     }
 
     override fun onDisable() {
-        // Plugin shutdown logic
     }
+
+    private fun enableLogger() {
+        val pluginlogger = ("""
+            |    
+            |                    _____
+            |              |       |      LegendsTwilight v${pluginMeta.version}
+            |              |___    |      Running on ${server.version}
+            |  
+        """.trimMargin())
+        logger.info { pluginlogger }
+    }
+
+
 }
