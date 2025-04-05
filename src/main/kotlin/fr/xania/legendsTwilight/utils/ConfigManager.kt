@@ -7,7 +7,8 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 data class Config(val enabled_worlds: List<String>,
-                  val propagation_interval: Int)
+                  val propagation_interval: Int,
+                  val corruption_growth_factor: Double)
 
 object ConfigManager {
 
@@ -23,7 +24,8 @@ object ConfigManager {
         if (!file.exists()) {
             val defaultConfig = Config(
                 enabled_worlds = listOf("world", "world_the_end"),
-                propagation_interval = 60)
+                propagation_interval = 60,
+                corruption_growth_factor = 1.5)
             saveConfig(defaultConfig)
             return defaultConfig
         }
@@ -36,19 +38,4 @@ object ConfigManager {
         val json = gson.toJson(config)
         Files.write(getConfigFile().toPath(), json.toByteArray())
     }
-//    fun addWorld(world: String) {
-//        val config = loadConfig()
-//        if (!config.enabled_worlds.contains(world)) {
-//            val updatedConfig = config.copy(enabled_worlds = config.enabled_worlds + world)
-//            saveConfig(updatedConfig)
-//        }
-//    }
-//
-//    fun removeWorld(world: String) {
-//        val config = loadConfig()
-//        if (config.enabled_worlds.contains(world)) {
-//            val updatedConfig = config.copy(enabled_worlds = config.enabled_worlds - world)
-//            saveConfig(updatedConfig)
-//        }
-//    }
 }
