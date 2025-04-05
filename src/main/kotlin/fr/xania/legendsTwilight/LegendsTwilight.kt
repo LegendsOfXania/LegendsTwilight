@@ -3,20 +3,23 @@ package fr.xania.legendsTwilight
 import CorruptionManager
 import CorruptionStorage
 import fr.xania.legendsTwilight.utils.ConfigManager
+import fr.xania.legendsTwilight.utils.Config
 import org.bukkit.plugin.java.JavaPlugin
 
 class LegendsTwilight : JavaPlugin() {
 
-    private val config = ConfigManager.loadConfig()
+    private lateinit var config: Config
 
     override fun onEnable() {
         enableLogger()
 
+        config = ConfigManager.loadConfig(this)
+
+        CorruptionManager.initialize(this)
+
         config.enabled_worlds.forEach { worldName ->
             CorruptionStorage.loadCorruptedChunks(worldName)
         }
-
-        // Démarrer la propagation de la corruption
         CorruptionManager.startCorruptionPropagation()
     }
 
@@ -33,6 +36,7 @@ class LegendsTwilight : JavaPlugin() {
             |                    _____
             |              |       |      Enabling LegendsTwilight
             |              |___    |      Created by Legends of Xania
+            |
             |
         """.trimMargin())
         logger.info { pluginlogger }
