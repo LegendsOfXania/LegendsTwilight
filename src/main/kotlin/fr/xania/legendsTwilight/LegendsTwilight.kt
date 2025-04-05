@@ -8,7 +8,6 @@ class LegendsTwilight : JavaPlugin() {
 
         enableLogger()
 
-        saveDefaultConfig()
     }
 
     override fun onDisable() {
