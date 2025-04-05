@@ -18,8 +18,8 @@ class LegendsTwilight : JavaPlugin() {
         val pluginlogger = ("""
             |    
             |                    _____
-            |              |       |      LegendsTwilight v${pluginMeta.version}
-            |              |___    |      Running on ${server.version}
+            |              |       |      Enabling LegendsTwilight
+            |              |___    |      Created by Legends of Xania
             |  
         """.trimMargin())
         logger.info { pluginlogger }
