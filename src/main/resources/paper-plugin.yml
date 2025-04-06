@@ -1,4 +1,5 @@
 name: LegendsTwilight
-version: '0.0.1'
+description: Legends Twilight is a Minecraft plugin that adds a chunk-corruption system!
+version: '0.0.2'
 main: fr.xania.legendsTwilight.LegendsTwilight
 api-version: '1.21'
