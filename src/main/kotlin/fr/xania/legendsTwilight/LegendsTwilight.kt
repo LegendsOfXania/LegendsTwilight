@@ -2,26 +2,32 @@ package fr.xania.legendsTwilight
 
 import CorruptionManager
 import CorruptionStorage
-import fr.xania.legendsTwilight.utils.ConfigManager
+import com.github.retrooper.packetevents.PacketEvents
 import fr.xania.legendsTwilight.utils.Config
-import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.event.Listener
+import fr.xania.legendsTwilight.utils.ConfigManager
+import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder
 import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
 import org.bukkit.event.server.ServerLoadEvent
+import org.bukkit.plugin.java.JavaPlugin
+
 
 class LegendsTwilight : JavaPlugin(), Listener {
 
     private lateinit var config: Config
 
+    override fun onLoad() {
+        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this))
+        PacketEvents.getAPI().load()
+    }
+
     override fun onEnable() {
         config = ConfigManager.loadConfig(this)
 
-        enableLogger()
+        PacketEvents.getAPI().init()
 
         CorruptionManager.initialize(this)
-
         server.pluginManager.registerEvents(this, this)
-
         CorruptionManager.startCorruptionPropagation()
 
         logger.info("LegendsTwilight activé avec succès !")
@@ -69,17 +75,9 @@ class LegendsTwilight : JavaPlugin(), Listener {
         } catch (e: Exception) {
             logger.severe("Erreur lors de la sauvegarde de l'état de corruption: ${e.message}")
         }
-        logger.info("LegendsTwilight désactivé avec succès.")
-    }
 
-    private fun enableLogger() {
-        val pluginlogger = ("""
-            |
-            |                    _____
-            |              |       |      Enabling LegendsTwilight
-            |              |___    |      Created by Legends of Xania
-            |
-        """.trimMargin())
-        logger.info(pluginlogger)
+        PacketEvents.getAPI().terminate()
+
+        logger.info("LegendsTwilight désactivé avec succès.")
     }
 }

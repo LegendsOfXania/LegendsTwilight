@@ -1,9 +1,0 @@
-{
-  "enabled_worlds": [
-    "world",
-    "world_nether",
-    "world_the_end"
-  ],
-  "propagation_interval": 5,
-  "corruption_growth_factor": 1.5
-}

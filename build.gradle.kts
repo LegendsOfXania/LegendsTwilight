@@ -10,11 +10,13 @@ repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/") { name = "papermc-repo" }
     maven("https://oss.sonatype.org/content/groups/public/") { name = "sonatype" }
+    maven("https://repo.codemc.io/repository/maven-releases/")
 }
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("com.github.retrooper:packetevents-spigot:2.7.0")
 }
 
 val targetJavaVersion = 21
