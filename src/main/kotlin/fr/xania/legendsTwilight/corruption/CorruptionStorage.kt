@@ -29,7 +29,7 @@ object CorruptionStorage {
         return corruptionData.corruptedChunks
     }
 
-    fun saveCorruptedChunks(world: String, corruptedChunks: List<ChunkCoord>) {
+    private fun saveCorruptedChunks(world: String, corruptedChunks: List<ChunkCoord>) {
         val file = getFile(world)
         val corruptionData = CorruptionData(corruptedChunks = corruptedChunks)
         val json = gson.toJson(corruptionData)

@@ -33,7 +33,6 @@ object CorruptionManager {
                 val worldChunks = corruptedChunks.computeIfAbsent(worldName) { ConcurrentHashMap.newKeySet() }
 
                 if (worldChunks.add(originChunk)) {
-                    // Opération d'écriture en stockage en asynchrone
                     plugin.server.scheduler.runTaskAsynchronously(plugin, Runnable {
                         CorruptionStorage.addCorruptedChunk(worldName, originChunk)
                         plugin.logger.info("Chunk d'origine (0, 0) ajouté comme corrompu dans le monde $worldName")
@@ -130,12 +129,6 @@ object CorruptionManager {
 
     fun getCorruptedChunks(worldName: String): Set<ChunkCoord> {
         return corruptedChunks[worldName]?.toSet() ?: emptySet()
-    }
-
-    fun saveAllCorruptedChunksAsync() {
-        plugin.server.scheduler.runTaskAsynchronously(plugin, Runnable {
-            saveAllCorruptedChunksSync()
-        })
     }
 
     fun saveAllCorruptedChunksSync() {
