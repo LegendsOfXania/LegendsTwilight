@@ -3,3 +3,8 @@ description: Legends Twilight add a corruption systeme.
 version: '0.0.2'
 main: fr.xania.legendsTwilight.LegendsTwilight
 api-version: '1.21'
+dependencies:
+  server:
+    PacketEvents:
+      load: BEFORE
+      required: true
