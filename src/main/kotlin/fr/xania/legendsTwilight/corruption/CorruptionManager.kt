@@ -20,7 +20,7 @@ object CorruptionManager {
         val validWorlds = config.enabled_worlds.mapNotNull { worldName ->
             val world = Bukkit.getWorld(worldName)
             if (world == null) {
-                plugin.logger.warning("Monde configuré $worldName introuvable, impossible d'initialiser la corruption")
+                plugin.logger.warning(" $worldName not found. Skipping...")
                 null
             } else {
                 worldName to world
@@ -35,7 +35,7 @@ object CorruptionManager {
                 if (worldChunks.add(originChunk)) {
                     plugin.server.scheduler.runTaskAsynchronously(plugin, Runnable {
                         CorruptionStorage.addCorruptedChunk(worldName, originChunk)
-                        plugin.logger.info("Chunk d'origine (0, 0) ajouté comme corrompu dans le monde $worldName")
+                        plugin.logger.info("Original chunk (x:0, z:0) is corrupted in $worldName")
                     })
                 }
             }
@@ -47,22 +47,22 @@ object CorruptionManager {
         val interval = config.propagation_interval * 60L * 20L // Conversion en ticks
         val growthFactor = config.corruption_growth_factor
 
-        plugin.logger.info("Démarrage de la propagation avec un intervalle de ${config.propagation_interval} minute(s) et un facteur de croissance de $growthFactor")
+        plugin.logger.info("Start propagation with an interval of ${config.propagation_interval} minute(s) and a growth factor of $growthFactor")
 
         object : BukkitRunnable() {
             override fun run() {
                 val worlds = config.enabled_worlds.mapNotNull { Bukkit.getWorld(it) }
 
-                plugin.logger.info("Exécution de la propagation de corruption sur ${worlds.size} monde(s)...")
+                plugin.logger.info("Run corruption propagation on ${worlds.size} world(s)...")
 
                 for (world in worlds) {
                     val chunks = corruptedChunks[world.name]?.toList() ?: emptyList()
-                    plugin.logger.info("Monde ${world.name}: ${chunks.size} chunks corrompus avant propagation")
+                    plugin.logger.info("World ${world.name}: ${chunks.size} chunks corrupted before propagation")
 
                     if (chunks.isNotEmpty()) {
                         propagateCorruption(world, chunks, growthFactor)
                     } else {
-                        plugin.logger.warning("Aucun chunk corrompu trouvé dans ${world.name}, impossible de propager")
+                        plugin.logger.warning("No corrupted chunk found in ${world.name}, impossible to propagate")
                     }
                 }
             }
@@ -70,14 +70,14 @@ object CorruptionManager {
     }
 
     private fun propagateCorruption(world: World, corruptedChunksList: List<ChunkCoord>, growthFactor: Double) {
-        plugin.logger.info("Propagation de la corruption dans ${world.name} avec ${corruptedChunksList.size} chunks corrompus")
+        plugin.logger.info("Propagation of corruption in ${world.name} with ${corruptedChunksList.size} corrupted chunksNo corrupted chunk found in ${world.name}, impossible to propagate")
 
         val newCorruptedChunks = mutableSetOf<ChunkCoord>()
         val random = java.util.Random()
 
         corruptedChunksList.forEach { chunkCoord ->
             val neighbors = getNeighborChunks(chunkCoord)
-            plugin.logger.info("Chunk (${chunkCoord.x}, ${chunkCoord.z}) a ${neighbors.size} voisins potentiels")
+            plugin.logger.info("Chunk (${chunkCoord.x}, ${chunkCoord.z}) has ${neighbors.size} potential neighbors")
 
             neighbors.forEach { neighbor ->
                 val shouldPropagate = if (growthFactor >= 1.0) true else random.nextDouble() < growthFactor
@@ -86,7 +86,7 @@ object CorruptionManager {
                     val worldChunks = corruptedChunks.computeIfAbsent(world.name) { ConcurrentHashMap.newKeySet() }
                     if (worldChunks.add(neighbor)) {
                         newCorruptedChunks.add(neighbor)
-                        plugin.logger.info("Nouveau chunk corrompu: (${neighbor.x}, ${neighbor.z})")
+                        plugin.logger.info("New corrupted chunk : (${neighbor.x}, ${neighbor.z})")
                     }
                 }
             }
@@ -97,10 +97,10 @@ object CorruptionManager {
                 for (chunk in newCorruptedChunks) {
                     CorruptionStorage.addCorruptedChunk(world.name, chunk)
                 }
-                plugin.logger.info("PROPAGATION TERMINÉE: ${newCorruptedChunks.size} nouveaux chunks corrompus dans ${world.name}")
+                plugin.logger.info("PROPAGATION COMPLETE: ${newCorruptedChunks.size} new corrupted chunks in ${world.name}")
             })
         } else {
-            plugin.logger.warning("Aucun nouveau chunk corrompu n'a été ajouté durant cette propagation")
+                plugin.logger.warning("No new corrupted chunks were added during this propagation")
         }
     }
 
@@ -137,9 +137,9 @@ object CorruptionManager {
                     CorruptionStorage.addCorruptedChunk(worldName, chunk)
                 }
             }
-            plugin.logger.info("Sauvegarde de tous les chunks corrompus terminée")
+            plugin.logger.info("Saving all corrupted chunks...")
         } catch (e: Exception) {
-            plugin.logger.severe("Erreur lors de la sauvegarde des chunks corrompus: ${e.message}")
+            plugin.logger.severe("Error saving corrupted chunks: ${e.message}")
             e.printStackTrace()
         }
     }

@@ -30,13 +30,13 @@ class LegendsTwilight : JavaPlugin(), Listener {
 
         CorruptionManager.startCorruptionPropagation()
 
-        logger.info("LegendsTwilight activé avec succès !")
+        logger.info("LegendsTwilight enabled successfully.")
     }
 
     @EventHandler
     fun onServerLoad(event: ServerLoadEvent) {
         if (event.type == ServerLoadEvent.LoadType.STARTUP) {
-            logger.info("Serveur complètement chargé, vérification de la corruption...")
+            logger.info("Server is loaded, checking for corrupted chunks...")
 
             var worldsWithCorruption = 0
             var totalCorruptedChunks = 0
@@ -54,15 +54,15 @@ class LegendsTwilight : JavaPlugin(), Listener {
 
                     worldsWithCorruption++
                     totalCorruptedChunks += corruptedChunks.size
-                    logger.info("${corruptedChunks.size} chunks corrompus trouvés et chargés pour $worldName")
+                    logger.info("${corruptedChunks.size} corrupted chunks found and loaded in : $worldName")
                 }
             }
 
             if (worldsWithCorruption == 0) {
-                logger.info("Aucun chunk corrompu trouvé, initialisation de la corruption...")
+                logger.info("No corrupted chunks found in any world. Initializing corruption in configured worlds...")
                 CorruptionManager.initializeCorruptionInConfiguredWorlds()
             } else {
-                logger.info("Corruption chargée: $totalCorruptedChunks chunks dans $worldsWithCorruption monde(s)")
+                logger.info("$totalCorruptedChunks chunks are loaded in : $worldsWithCorruption.")
             }
         }
     }
