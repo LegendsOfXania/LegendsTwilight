@@ -59,7 +59,6 @@ object CorruptionManager {
                     val chunks = corruptedChunks[world.name]?.toList() ?: emptyList()
                     plugin.logger.info("Monde ${world.name}: ${chunks.size} chunks corrompus avant propagation")
 
-                    // Exécutez la propagation directement sur le thread principal pour simplifier
                     if (chunks.isNotEmpty()) {
                         propagateCorruption(world, chunks, growthFactor)
                     } else {

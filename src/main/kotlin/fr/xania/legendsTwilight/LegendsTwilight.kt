@@ -11,7 +11,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.server.ServerLoadEvent
 import org.bukkit.plugin.java.JavaPlugin
 
-
 class LegendsTwilight : JavaPlugin(), Listener {
 
     private lateinit var config: Config
@@ -21,13 +20,14 @@ class LegendsTwilight : JavaPlugin(), Listener {
         PacketEvents.getAPI().load()
     }
 
+
     override fun onEnable() {
         config = ConfigManager.loadConfig(this)
 
-        PacketEvents.getAPI().init()
 
         CorruptionManager.initialize(this)
         server.pluginManager.registerEvents(this, this)
+
         CorruptionManager.startCorruptionPropagation()
 
         logger.info("LegendsTwilight activé avec succès !")
@@ -46,7 +46,6 @@ class LegendsTwilight : JavaPlugin(), Listener {
 
                 if (corruptedChunks.isNotEmpty()) {
                     corruptedChunks.forEach { chunk ->
-                        CorruptionManager.getCorruptedChunks(worldName)
                         val world = server.getWorld(worldName)
                         if (world != null) {
                             CorruptionManager.addCorruptedChunk(world, chunk)
@@ -67,6 +66,7 @@ class LegendsTwilight : JavaPlugin(), Listener {
             }
         }
     }
+
     override fun onDisable() {
         logger.info("Sauvegarde de l'état de la corruption...")
         try {

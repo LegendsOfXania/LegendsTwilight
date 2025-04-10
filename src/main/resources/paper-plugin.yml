@@ -1,8 +1,10 @@
 name: LegendsTwilight
 description: Legends Twilight add a corruption systeme.
+author: [Xaya]
 version: '0.0.2'
 main: fr.xania.legendsTwilight.LegendsTwilight
 api-version: '1.21'
+folia-supported: true
 dependencies:
   server:
     PacketEvents:
